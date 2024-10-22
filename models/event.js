@@ -7,6 +7,11 @@ const imageSchema = mongoose.Schema({
     },
     filename: {
         type: String
+    },
+    type: {
+        type: String,
+        enum: ['poster', 'gallery'],
+        required: true
     }
 });
 
@@ -23,12 +28,8 @@ const eventSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    posterUrl: {
-        type: String
-    },
-    gallery: [imageSchema]
-
+    images: [imageSchema],
 }, { timestamps: true });
 
-const Event = mongoose.model("event", eventSchema);
+const Event = mongoose.model("Event", eventSchema);
 module.exports = Event;
