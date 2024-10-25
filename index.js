@@ -11,9 +11,7 @@ connectDB();
 app.use(express.json());
 
 app.use('/api/event', require('./route/event'));
-app.get('/', (req,res)=>{
-    return res.sendFile(path.join(__dirname, "index.html"));
-})
+app.use('/api/registrations', require('./route/eventRegistration'));
 
 app.listen(port, ()=>{
     console.log(`server is listening on ${port}`);
