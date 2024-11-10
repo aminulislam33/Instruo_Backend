@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>ALL EVENTS</h2>
+    <a href="/">Go back</a>
+    <br><br>
+    <% let cnt=1 %>
+    <% for(let event of events){ %>
+        <div style="width: 50%;">
+            <div>
+                <b>(<%= cnt++ %>) </b>
+                <span><b>Name:</b> <%= event.name %></span>
+            </div>
+            <br>
+            <div><b>Description:</b> <%= event.description %></div>
+            <br>
+            <div><b>Rules: </b> <%= event.rules %> </div>
+            <br>
+            <div><b>Rules Doc: </b><a href="<%= event.rulesDoc %>" target="_blank">click to open doc</a></div>
+            <br>
+            <div><b>Start Time: </b> <%= event.startTime.toLocaleTimeString() %> - <%= event.startTime.toLocaleDateString() %></div>
+            <br>
+            <div><b>End Time: </b> <%= event.endTime.toLocaleTimeString() %> - <%= event.endTime.toLocaleDateString() %></div>
+            <br>
+            <div><b>Venue: </b><%= event.venue %></div>
+            <br>
+            <div><b>Images: </b></div>
+            <div>
+                <div>(Poster)</div>
+                <% for(let img of event.images){ %>
+                    <% if(img.type=='poster'){ %>
+                        <img src="<%= img.url %>" alt="" style="width: 40%;">
+                    <% } %>
+                <% } %>
+                <br><br>
+                <div>(Gallery)</div>
+                <% for(let img of event.images){ %>
+                    <div>
+                        <% if(img.type=='gallery'){ %>
+                            <img src="<%= img.url %>" alt="" style="width: 40%;">
+                            <br>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        <hr>
+    <% } %>
+</body>
+</html>

@@ -16,11 +16,27 @@ const imageSchema = mongoose.Schema({
 });
 
 const eventSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
     description: {
         type: String,
         required: true
     },
-    date: {
+    rules:{
+        type: String,
+        required: true
+    },
+    rulesDoc:{
+        type: String,
+        required: true
+    },
+    startTime: {
+        type: Date,
+        required: true
+    },
+    endTime: {
         type: Date,
         required: true
     },

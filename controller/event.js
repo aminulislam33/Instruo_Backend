@@ -31,7 +31,8 @@ const createEvent = async (req, res) => {
         });
 
         await event.save();
-        res.status(201).json(event);
+        res.redirect('/');
+        // res.status(201).json(event);
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
