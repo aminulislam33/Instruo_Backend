@@ -4,19 +4,18 @@ const router = express.Router();
 const multer = require('multer');
 const { storage } = require('../config/cloudinary');
 const upload = multer({ storage });
+const {isLoggedIn, isAdmin}= require("../middleware.js");
 
 router.get('/', eventManagement.getEvents);
 router.get('/:id', eventManagement.getEventById);
 
-//these routes are only for admin
-
 router.post('/create', upload.fields([
     { name: 'poster', maxCount: 1 },
     { name: 'gallery', maxCount: 10 }
-]), eventManagement.createEvent); 
+]), eventManagement.createEvent);
 
 router.put('/:id', upload.fields([
-    { name: 'poster', maxCount: 1 }, 
+    { name: 'poster', maxCount: 1 },
     { name: 'gallery', maxCount: 10 }
 ]), eventManagement.updateEvent);
 

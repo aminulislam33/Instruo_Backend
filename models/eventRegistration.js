@@ -76,8 +76,22 @@ function validatePhone(phone) {
 }
 
 function arrayLimit(val) {
-    return val.length >= 1 && val.length <= 5; 
+    return val.length >= 1 && val.length <= 5;
 }
 
 const EventRegistration = mongoose.model("EventRegistration", eventRegistrationSchema);
-module.exports = EventRegistration;
+const Member= mongoose.model("Member", memberSchema);
+
+module.exports = {EventRegistration, Member};
+
+
+
+/*
+1. Name of the Person who is registering (Name)
+2. Email Id
+3. Phone No.
+4. Team members (To be kept optional.. must be shown for team registration) (Max 5 members including the person who is registering)
+   -- For each member.. collect their name, email, phone no.
+5. Team Name (Optional) (Only for Team registration)
+*/
+

@@ -1,38 +1,44 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const passport = require("passport");
-const User= require('./models/user.js')
+const User = require('./models/user.js');
 
 passport.use(
-	new GoogleStrategy(
-		{
-			clientID: process.env.CLIENT_ID,
-			clientSecret: process.env.CLIENT_SECRET,
-			callbackURL: "http://localhost:8000/auth/google/callback",
-			scope: ["profile", "email"],
-		},
-		async function (accessToken, refreshToken, profile, callback) {
-			// console.log(profile)
-			const email= profile.emails[0].value;
-            const u= await User.findOne({email})
-            // console.log(u)
-			if(!u){
-				const u= new User({
-					name: profile.displayName,
-					email: profile.emails[0].value,
-					image: profile.photos[0].value
-				})
-				await u.save();
-                console.log("NEW USER ADDED")
-			}else console.log("Already EXISTS!!")
-			callback(null, profile);
-		}
-	)
+    new GoogleStrategy(
+        {
+            clientID: process.env.CLIENT_ID,
+            clientSecret: process.env.CLIENT_SECRET,
+            callbackURL: "http://localhost:5000/auth/google/callback",
+            scope: ["profile", "email"],
+        },
+        async function (accessToken, refreshToken, profile, callback) {
+            const email = profile.emails[0].value;
+            let user = await User.findOne({ email });
+
+            if (!user) {
+                user = new User({
+                    name: profile.displayName,
+                    email: profile.emails[0].value,
+                    image: profile.photos[0].value
+                });
+                await user.save();
+                console.log("New user added");
+            } else {
+                console.log("User already exists");
+            }
+            callback(null, user);
+        }
+    )
 );
 
 passport.serializeUser((user, done) => {
-	done(null, user);
+    done(null, user._id);
 });
 
-passport.deserializeUser((user, done) => {
-	done(null, user);
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await User.findById(id);
+        done(null, user);
+    } catch (error) {
+        done(error, null);
+    }
 });

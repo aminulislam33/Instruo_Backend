@@ -1,5 +1,6 @@
 const Event = require("../models/event");
 const { cloudinary } = require("../config/cloudinary");
+const {isLoggedIn, isAdmin}= require("../middleware")
 
 const createEvent = async (req, res) => {
     try {
@@ -25,14 +26,19 @@ const createEvent = async (req, res) => {
             }
         }
 
+        const size= {max: req.body.maxSize, min: req.body.minSize};
+
         const event = new Event({
             ...req.body,
+            size,
             images: images
         });
 
+        // console.log(size.max, size.min);
+        // console.log(event)
         await event.save();
-        res.redirect('/');
-        // res.status(201).json(event);
+        // res.redirect('/');
+        res.status(201).json(event);
     } catch (err) {
         res.status(400).json({ error: err.message });
     }

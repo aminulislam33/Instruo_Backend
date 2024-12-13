@@ -20,17 +20,28 @@ const eventSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    type:{
+        type: String,
+        enum: ['Single', 'Team', 'Combined'],
+        required: true
+    },
+    size:{
+        type:{
+            max: Number,
+            min: Number
+        }
+    },
     description: {
         type: String,
         required: true
     },
     rules:{
         type: String,
-        required: true
+        // required: true
     },
     rulesDoc:{
         type: String,
-        required: true
+        // required: true
     },
     startTime: {
         type: Date,

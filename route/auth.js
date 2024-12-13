@@ -1,7 +1,9 @@
 const router= require("express").Router();
 const passport= require("passport");
+const User= require("../models/user");
+const {isLoggedIn, isAdmin}= require("../middleware.js")
 
-router.get('/google', passport.authenticate('google', {scope: ['email', 'profile']}))
+router.get('/google', passport.authenticate('google', {scope: ['email', 'profile']}));
 
 router.get('/google/callback',
     passport.authenticate('google', {
@@ -25,6 +27,17 @@ router.get('/logout', (req, res) => {
         }
         res.redirect(process.env.CLIENT_URL);
     });
+});
+
+router.get('/status', async(req, res) => {
+    if (req.user) {
+        console.log(res.locals.loggedUser)
+        const emailId= req.user.email;
+        const u= await User.find({email: emailId});
+        res.json({ loggedIn: true,  user: u[0] });
+    } else {
+        res.json({ loggedIn: false });
+    }
 });
 
 module.exports= router;

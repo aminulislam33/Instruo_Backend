@@ -1,16 +1,32 @@
-const EventRegistration = require("../models/eventRegistration");
+const {EventRegistration, Member} = require("../models/eventRegistration");
+const Event= require("../models/event")
 
 const createRegistration = async (req, res) => {
     try {
+        // console.log(req.body.name);
         const { name, email, phone, members, teamName, event } = req.body;
-        
+        let e= await Event.find({name: event});
+        const eventId= e[0]._id;
+
+        const allMembers = [];
+        for (let member of members) {
+            const newMember = new Member({
+                memberName: member.memberName,
+                memberEmail: member.memberEmail,
+                memberPhone: member.memberPhone
+            });
+
+            const savedMember = await newMember.save();
+            allMembers.push(savedMember);
+        }
+
         const registration = new EventRegistration({
             name,
             email,
             phone,
-            members,
+            members: allMembers,
             teamName,
-            event
+            event: eventId
         });
 
         await registration.save();
@@ -22,7 +38,7 @@ const createRegistration = async (req, res) => {
 
 const getAllRegistrations = async (req, res) => {
     try {
-        const registrations = await EventRegistration.find();
+        const registrations = await EventRegistration.find({});
         res.status(200).json(registrations);
     } catch (error) {
         res.status(500).json({ error: error.message });

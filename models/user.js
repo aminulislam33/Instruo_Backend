@@ -4,9 +4,10 @@ const userSchema= new mongoose.Schema({
     name: String,
     email: String,
     image: String,
+    phone: String,
     post: {
         type: String,
-        enum: ['Dev', 'Admin', 'User'],
+        enum: ['Admin', 'User'],
         default: 'User'
     }
 })
