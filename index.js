@@ -65,7 +65,6 @@ app.use((req, res, next) => {
 app.use('/api/event', require('./route/event'));
 app.use('/api/registrations', require('./route/eventRegistration'));
 app.use("/auth", authRoute);
-app.use('/', require('./route/user'));
 
 app.listen(port, ()=>{
     console.log(`server is listening on ${port}`);
