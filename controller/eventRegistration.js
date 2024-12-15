@@ -4,9 +4,7 @@ const Event= require("../models/event")
 const createRegistration = async (req, res) => {
     try {
         // console.log(req.body.name);
-        const { name, email, phone, members, teamName, event } = req.body;
-        let e= await Event.find({name: event});
-        const eventId= e[0]._id;
+        const { name, email, phone, members, teamName, eventId } = req.body;
 
         const allMembers = [];
         for (let member of members) {
