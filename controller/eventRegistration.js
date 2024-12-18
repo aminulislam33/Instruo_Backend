@@ -1,4 +1,5 @@
 const {EventRegistration, Member} = require("../models/eventRegistration");
+const { cloudinary } = require("../config/cloudinary");
 const Event= require("../models/event")
 
 const createRegistration = async (req, res) => {
@@ -6,16 +7,32 @@ const createRegistration = async (req, res) => {
         // console.log(req.body.name);
         const { name, email, phone, members, teamName, eventId } = req.body;
 
-        const allMembers = [];
-        for (let member of members) {
-            const newMember = new Member({
-                memberName: member.memberName,
-                memberEmail: member.memberEmail,
-                memberPhone: member.memberPhone
-            });
+        const alreadyRegistered = await EventRegistration.findOne({email, event: eventId});
+        if(alreadyRegistered){
+            return res.status(409).json({message: "You have already registered for this event"});
+        }
 
-            const savedMember = await newMember.save();
-            allMembers.push(savedMember);
+        let paymentProofUrl = '';
+        if (req.file && req.file.path) {
+            const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'PaymentProof',
+                resource_type: 'image'
+            });
+            paymentProofUrl = uploadResult.secure_url;
+        }
+
+        const allMembers = [];
+        if(members){
+            for (let member of members) {
+                const newMember = new Member({
+                    memberName: member.memberName,
+                    memberEmail: member.memberEmail,
+                    memberPhone: member.memberPhone
+                });
+    
+                const savedMember = await newMember.save();
+                allMembers.push(savedMember);
+            }
         }
 
         const registration = new EventRegistration({
@@ -24,7 +41,8 @@ const createRegistration = async (req, res) => {
             phone,
             members: allMembers,
             teamName,
-            event: eventId
+            event: eventId,
+            paymentProof: paymentProofUrl
         });
 
         await registration.save();

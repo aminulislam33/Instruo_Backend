@@ -52,7 +52,8 @@ const eventRegistrationSchema = new mongoose.Schema({
     },
     members: {
         type: [memberSchema],
-        validate: [arrayLimit, '{PATH} exceeds the limit of 5']
+        validate: [arrayLimit, '{PATH} exceeds the limit of 5'],
+        default: null,
     },
     teamName: {
         type: String,
@@ -62,7 +63,10 @@ const eventRegistrationSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event',
         required: true
-    }
+    },
+    paymentProof: {
+        type: String
+    },
 }, { timestamps: true });
 
 function validateEmail(email) {
@@ -76,7 +80,7 @@ function validatePhone(phone) {
 }
 
 function arrayLimit(val) {
-    return val.length >= 1 && val.length <= 5;
+    return !val || (val.length >= 0 && val.length <= 5);
 }
 
 const EventRegistration = mongoose.model("EventRegistration", eventRegistrationSchema);
