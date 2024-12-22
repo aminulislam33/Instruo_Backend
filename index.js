@@ -22,7 +22,9 @@ const corsOptions = {
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
-            callback(new Error('Not allowed by CORS'));
+            const error = new Error('Not allowed by CORS');
+            console.log(error);
+            callback(error);
         }
     },
     credentials: true,
