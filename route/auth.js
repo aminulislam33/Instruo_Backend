@@ -31,7 +31,6 @@ router.get('/logout', (req, res) => {
 
 router.get('/status', async(req, res) => {
     if (req.user) {
-        console.log(res.locals.loggedUser)
         const emailId= req.user.email;
         const u= await User.find({email: emailId});
         res.json({ loggedIn: true,  user: u[0] });

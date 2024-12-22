@@ -15,7 +15,7 @@ const authRoute= require('./route/auth.js');
 const port = process.env.PORT || 5000 ;
 
 const corsOptions = {
-    origin: 'https://registration-form-instruo.vercel.app',
+    origin: ['https://admin.instruo.tech'],
     credentials: true,
 };
 
@@ -53,14 +53,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require('./passport.js');
-
-app.use((req, res, next) => {
-    if (req.user) {
-        res.locals.loggedUser = req.user;
-    }
-    next();
-});
-
 
 app.use('/api/event', require('./route/event'));
 app.use('/api/registrations', require('./route/eventRegistration'));

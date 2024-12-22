@@ -1,6 +1,6 @@
 const User= require("./models/user")
 module.exports.isLoggedIn= (req, res, next)=>{
-  const user = req.user || res.locals.loggedUser;
+  const user = req.user;
     if (user) {
       return next();
   } else{

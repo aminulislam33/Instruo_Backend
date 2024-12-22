@@ -8,6 +8,7 @@ passport.use(
             clientID: process.env.CLIENT_ID,
             clientSecret: process.env.CLIENT_SECRET,
             callbackURL: "https://instruo-backend.onrender.com/auth/google/callback",
+            // callbackURL: "http://localhost:5173/auth/google/callback",
             scope: ["profile", "email"],
         },
         async function (accessToken, refreshToken, profile, callback) {

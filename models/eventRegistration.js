@@ -25,6 +25,17 @@ const memberSchema = new mongoose.Schema({
     }
 });
 
+
+const imageSchema = mongoose.Schema({
+    url: {
+        type: String,
+        required: true
+    },
+    filename: {
+        type: String
+    }
+});
+
 const eventRegistrationSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -50,6 +61,7 @@ const eventRegistrationSchema = new mongoose.Schema({
             message: 'Please enter a valid 10-digit phone number'
         }
     },
+    paymentSS: [imageSchema],
     members: {
         type: [memberSchema],
         validate: [arrayLimit, '{PATH} exceeds the limit of 5']

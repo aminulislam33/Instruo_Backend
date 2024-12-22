@@ -4,6 +4,16 @@ const Event= require("../models/event")
 const createRegistration = async (req, res) => {
     try {
         // console.log(req.body.name);
+        const paymentSS= [];
+
+        if(req.files){
+            const uploadResult = await cloudinary.uploader.upload(req.files[0].path);
+                images.push({
+                    url: uploadResult.secure_url,
+                    filename: uploadResult.public_id,
+                });
+        }
+
         const { name, email, phone, members, teamName, eventId } = req.body;
 
         const allMembers = [];
@@ -24,7 +34,8 @@ const createRegistration = async (req, res) => {
             phone,
             members: allMembers,
             teamName,
-            event: eventId
+            event: eventId,
+            paymentSS
         });
 
         await registration.save();

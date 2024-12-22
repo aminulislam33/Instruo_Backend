@@ -37,11 +37,9 @@ const eventSchema = mongoose.Schema({
     },
     rules:{
         type: String,
-        // required: true
     },
     rulesDoc:{
         type: String,
-        // required: true
     },
     startTime: {
         type: Date,
@@ -54,6 +52,9 @@ const eventSchema = mongoose.Schema({
     venue: {
         type: String,
         required: true
+    },
+    registrationAmount:{
+        type: Number
     },
     images: [imageSchema],
 }, { timestamps: true });
