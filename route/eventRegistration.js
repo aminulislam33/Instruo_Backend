@@ -3,7 +3,7 @@ const router = express.Router();
 const eventRegistrationController = require('../controller/eventRegistration');
 const {isLoggedIn, isAdmin}= require("../middleware.js");
 const multer = require('multer');
-const { storage } = require('../config/cloudinary');
+const { storage } = require('../utils/cloudinary.js');
 const upload = multer({ storage });
 
 router.post('/', upload.single(), eventRegistrationController.createRegistration);

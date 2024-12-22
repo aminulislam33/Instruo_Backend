@@ -1,5 +1,5 @@
 const Event = require("../models/event");
-const { cloudinary } = require("../config/cloudinary");
+const { cloudinary } = require("../utils/cloudinary");
 const {isLoggedIn, isAdmin}= require("../middleware")
 
 const createEvent = async (req, res) => {

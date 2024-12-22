@@ -2,7 +2,7 @@ const express = require('express');
 const eventManagement = require('../controller/event');
 const router = express.Router();
 const multer = require('multer');
-const { storage } = require('../config/cloudinary');
+const { storage } = require('../utils/cloudinary.js');
 const upload = multer({ storage });
 const {isLoggedIn, isAdmin}= require("../middleware.js");
 
