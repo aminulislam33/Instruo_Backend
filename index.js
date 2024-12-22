@@ -15,8 +15,16 @@ const userRoute= require('./route/user.js');
 
 const port = process.env.PORT || 5000 ;
 
+const allowedOrigins = ['https://admin.instruo.tech', 'https://instruo.tech', 'https://register.instruo.tech'];
+
 const corsOptions = {
-    origin: 'https://admin.instruo.tech',
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
 };
 
