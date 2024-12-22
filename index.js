@@ -11,6 +11,7 @@ const User= require("./models/user.js")
 
 const connectDB = require('./db');
 const authRoute= require('./route/auth.js');
+const userRoute= require('./route/user.js');
 
 const port = process.env.PORT || 5000 ;
 
@@ -57,6 +58,7 @@ require('./passport.js');
 app.use('/api/event', require('./route/event'));
 app.use('/api/registrations', require('./route/eventRegistration'));
 app.use("/auth", authRoute);
+app.use("/user", userRoute);
 
 app.listen(port, ()=>{
     console.log(`server is listening on ${port}`);

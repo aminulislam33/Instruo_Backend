@@ -14,14 +14,6 @@ const memberSchema = new mongoose.Schema({
             validator: validateEmail,
             message: 'Please enter a valid email address'
         }
-    },
-    memberPhone: {
-        type: String,
-        required: true,
-        validate: {
-            validator: validatePhone,
-            message: 'Please enter a valid 10-digit phone number'
-        }
     }
 });
 
@@ -64,7 +56,7 @@ const eventRegistrationSchema = new mongoose.Schema({
     paymentSS: [imageSchema],
     members: {
         type: [memberSchema],
-        validate: [arrayLimit, '{PATH} exceeds the limit of 5']
+        validate: [arrayLimit, '{PATH} exceeds the limit of 10']
     },
     teamName: {
         type: String,
@@ -88,22 +80,10 @@ function validatePhone(phone) {
 }
 
 function arrayLimit(val) {
-    return val.length >= 1 && val.length <= 5;
+    return val.length >= 1 && val.length <= 10;
 }
 
 const EventRegistration = mongoose.model("EventRegistration", eventRegistrationSchema);
 const Member= mongoose.model("Member", memberSchema);
 
 module.exports = {EventRegistration, Member};
-
-
-
-/*
-1. Name of the Person who is registering (Name)
-2. Email Id
-3. Phone No.
-4. Team members (To be kept optional.. must be shown for team registration) (Max 5 members including the person who is registering)
-   -- For each member.. collect their name, email, phone no.
-5. Team Name (Optional) (Only for Team registration)
-*/
-
