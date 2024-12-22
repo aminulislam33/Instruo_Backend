@@ -15,7 +15,7 @@ const authRoute= require('./route/auth.js');
 const port = process.env.PORT || 5000 ;
 
 const corsOptions = {
-    origin: ['https://admin.instruo.tech'],
+    origin: 'https://admin.instruo.tech/',
     credentials: true,
 };
 
