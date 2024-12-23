@@ -61,7 +61,7 @@ exports.googleAuth = async (req, res, next) => {
             image: userRes.data.picture,
         });
         // req.session.user= user;
-        const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '24h' });
         res.cookie('jwt', token, { httpOnly: true });
     }
 
