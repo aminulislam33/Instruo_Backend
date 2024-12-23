@@ -15,7 +15,7 @@ const userRoute= require('./route/user.js');
 
 const port = process.env.PORT || 5000 ;
 
-const allowedOrigins = ['https://admin.instruo.tech', 'https://instruo.tech'];
+const allowedOrigins = ['https://admin.instruo.tech', 'https://instruo.tech', 'https://registration-form-instruo.vercel.app'];
 
 const corsOptions = {
     origin: (origin, callback) => {
