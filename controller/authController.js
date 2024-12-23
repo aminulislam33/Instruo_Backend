@@ -28,7 +28,7 @@ const createSendToken = (user, statusCode, res) => {
 
     res.cookie('jwt', token, cookieOptions);
 
-    console.log(user);
+    // console.log(user);
 
     res.status(statusCode).json({
         message: 'success',
@@ -41,7 +41,7 @@ const createSendToken = (user, statusCode, res) => {
 
 exports.googleAuth = async (req, res, next) => {
     const code = req.query.code;
-    console.log("USER CREDENTIAL -> ", code);
+    // console.log("USER CREDENTIAL -> ", code);
 
     const googleRes = await oauth2Client.oauth2Client.getToken(code);
 
@@ -60,7 +60,24 @@ exports.googleAuth = async (req, res, next) => {
             email: userRes.data.email,
             image: userRes.data.picture,
         });
+        // req.session.user= user;
+        const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.cookie('jwt', token, { httpOnly: true });
     }
 
     createSendToken(user, 201, res);
+};
+
+exports.logout = (req, res, next) => {
+    res.cookie('jwt', 'loggedOut', {
+        expires: new Date(Date.now() - 1000),
+        httpOnly: true,
+        path: '/',
+        secure: process.env.NODE_ENV === 'production' ? true : false,
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+    });
+
+    res.status(200).json({
+        message: 'Logged out successfully',
+    });
 };
