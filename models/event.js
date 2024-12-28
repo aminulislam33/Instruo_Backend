@@ -53,6 +53,10 @@ const eventSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    registrationUrl:{
+        type: String,
+        required: true
+    },
     registrationAmount:{
         type: Number
     },
